@@ -458,7 +458,7 @@ contract PLEATest is Test {
     }
 
     function testFuzzTransferToAnyNonzeroRecipient(address recipient, uint256 amount) public {
-        vm.assume(recipient != address(0));
+        recipient = address(uint160(bound(uint160(recipient), 1, type(uint160).max)));
         amount = bound(amount, 0, SUPPLY);
         assertTrue(token.transfer(recipient, amount));
         if (recipient == address(this)) {
